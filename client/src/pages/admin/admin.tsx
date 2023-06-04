@@ -159,7 +159,7 @@ const SidebarContent = ({ ...props }: BoxProps) => (
                 <Link to='/myway/admin/chats'>Chat</Link>
             </NavItem>
             <NavItem icon={AiOutlineHome}>
-                <Link to='/myway/admin'>Dashboard</Link>
+                <Link to='/'>GO TO HOME</Link>
             </NavItem>
         </Flex>
     </Box>

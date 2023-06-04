@@ -84,7 +84,7 @@ function App() {
       {
         showChat ? <div style={{ width: '300px', height: '400px', position: 'fixed', bottom: '50px', right: '50px', zIndex: '100' }}>
           <Chat setShowChat={setShowChat} socket={socket} room={handleLoginAndCart.user._id.toString()} username={handleLoginAndCart.user} />
-        </div> : (true && <button
+        </div> : ((handleLoginAndCart.user.role === 'user' || !handleLoginAndCart.token) && <button
           style={{ position: 'fixed', bottom: '50px', right: '50px', zIndex: '100', padding: '10px', borderRadius: '10px', backgroundColor: '#00b156', color: '#fff' }}
 
           onClick={() => { joinRoom() }}
