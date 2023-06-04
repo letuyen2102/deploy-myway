@@ -4,6 +4,9 @@ import { Socket } from "socket.io-client";
 import './Chat.module.css'
 import axios from "axios";
 import { UserInfor } from "../../slices/authSlice";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { Link } from "react-router-dom";
 export interface MESSAGE {
     room: string,
     author: UserInfor,
@@ -13,6 +16,8 @@ export interface MESSAGE {
 function Chat({ socket, username, room, setShowChat }: { socket: Socket, username: UserInfor, room: string, setShowChat: React.Dispatch<React.SetStateAction<boolean>> }) {
     const [currentMessage, setCurrentMessage] = useState("");
     const [messageList, setMessageList] = useState<MESSAGE[]>([]);
+    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+
     const currentLoad = useRef(false)
     const sendMessage = async () => {
         if (currentMessage !== "") {
@@ -62,7 +67,7 @@ function Chat({ socket, username, room, setShowChat }: { socket: Socket, usernam
                 <button onClick={() => { setShowChat(false) }}>X</button>
             </div>
             <div className="chat-body">
-                <ScrollToBottom className="message-container">
+                {!handleLoginAndCart.token ? <Link to='/account/login'>Đăng nhập để nhận tư vấn</Link> : <ScrollToBottom className="message-container">
                     {messageList.map((messageContent, idx) => {
                         return (
                             <div
@@ -82,7 +87,7 @@ function Chat({ socket, username, room, setShowChat }: { socket: Socket, usernam
                             </div>
                         );
                     })}
-                </ScrollToBottom>
+                </ScrollToBottom>}
             </div>
             <div className="chat-footer">
                 <input

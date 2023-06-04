@@ -121,7 +121,7 @@ function Items({ currentItems }: { currentItems: ORDER[] }) {
                                                 cancelOrder(item._id)
                                             }}>HỦY BỎ</button>}
                                             {item.status === "required" && <button>ĐANG HỦY</button>}
-                                            {item.status === "cancel" && <Link to={`/cart`}>MUA LẠI</Link>}
+                                            {item.status === "cancel" && <Link to={`/collection/all`}>MUA LẠI</Link>}
                                             <Link to={`/profile/account/user/myOrder/${item._id}`}>XEM CHI TIẾT</Link>
                                         </div>
                                     </div>

@@ -116,7 +116,9 @@ function Items({ currentItems }: { currentItems: ORDER[] }) {
                                             {item.status === "required" && <button onClick={event => {
                                                 handleRefuseOrder(item._id)
                                             }}>CHẤP NHẬN HỦY</button>}
-                                            {item.status === "required" && <button>TIẾP TỤC ĐƠN</button>}
+                                            {item.status === "required" && <button onClick={event => {
+                                                handleAcceptOrder(item._id)
+                                            }}>TIẾP TỤC ĐƠN</button>}
                                             {item.status === "processing" && <button onClick={event => {
                                                 handleAcceptOrder(item._id)
                                             }}>CHẤP NHẬN</button>}
