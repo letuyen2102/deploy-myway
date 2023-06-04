@@ -63,11 +63,6 @@ const Checkout = () => {
         }
     }
     useEffect(() => {
-        if (handleLoginAndCart.token === "") {
-            navigate('/account/login')
-        }
-    }, [handleLoginAndCart.token])
-    useEffect(() => {
         const getCartApi = async () => {
             await fetch('/myway/api/carts/cartMe')
                 .then(res => res.json())

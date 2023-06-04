@@ -1,11 +1,10 @@
 /*eslint-disable*/
 import axios from "axios"
-import React, { useContext, useEffect, useState } from "react"
+import React, { useState } from "react"
 import { Link, NavigateFunction, useNavigate } from "react-router-dom"
 import { useGoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import { signInWithPopup, FacebookAuthProvider, getAuth } from 'firebase/auth'
-import FacebookLogin from '@greatsumini/react-facebook-login';
 import styles from './Login.module.css'
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../slices/authSlice";
@@ -117,12 +116,6 @@ const Login: React.FC = () => {
                 console.error(error);
             });
     };
-
-    useEffect(() => {
-        if (handleLoginAndCart.token !== "") {
-            navigate('/profile/account/user')
-        }
-    }, [handleLoginAndCart.token])
     return (
         <div>
             <Title>

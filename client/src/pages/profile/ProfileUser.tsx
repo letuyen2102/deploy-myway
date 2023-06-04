@@ -9,17 +9,7 @@ import MyBooking from "../../components/SectionProfile/MyBooking"
 import DetailOrder from "../../components/SectionProfile/DetailOrder"
 import styles from './Profile.module.css'
 import ChangePhone from "../../components/ChangePhone/ChangePhone"
-import { useSelector } from "react-redux"
-import { RootState } from "../../store/store"
-import { useEffect } from "react"
-const ProfileUser = () => {
-    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
-    const navigate = useNavigate()
-    useEffect(() => {
-        if (handleLoginAndCart.token === "") {
-            navigate('/account/login')
-        }
-    }, [handleLoginAndCart.token])
+const ProfileUser: React.FC<{ children: React.ReactNode }> = (props) => {
     return (
         <div>
             <Header />
@@ -46,13 +36,9 @@ const ProfileUser = () => {
                         <div className="col-lg-9 col-md-12 col-sm-12 col-12">
                             <div>
                                 <div>
-                                    <Routes>
-                                        <Route path="/" element={<SectionProfile />} />
-                                        <Route path="/change-phone" element={<ChangePhone />} />
-                                        <Route path="/change-password" element={<ChangePassword />} />
-                                        <Route path="/myOrder" element={<MyBooking API="/myway/api/bookings/getBookingsMe" />} />
-                                        <Route path="/myOrder/:orderId" element={<DetailOrder />} />
-                                    </Routes>
+                                    {
+                                        props.children
+                                    }
                                 </div>
                             </div>
                         </div>

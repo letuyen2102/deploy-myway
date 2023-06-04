@@ -1,17 +1,17 @@
 import React, { ReactComponentElement } from 'react'
 import { useSelector } from "react-redux"
-import { Navigate, useLocation } from "react-router-dom"
+import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { RootState } from '../../store/store';
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = (props) => {
-    const user = useSelector((state: RootState) => state.auth).token === ""
-    console.log("protetc")
+const ProtectedRoute = () => {
+    const user = useSelector((state: RootState) => state.auth).token
+
     let location = useLocation();
 
-    if (user) {
-        return <Navigate to="/" />
-    }
-    return <>{props.children}</>; // Thêm cặp dấu <></> để bao bọc children
+    return (
+        user ? <Outlet />
+            : <Navigate to='/account/login' state={{ from: location }} replace />
+    )
 };
 
 export default ProtectedRoute;

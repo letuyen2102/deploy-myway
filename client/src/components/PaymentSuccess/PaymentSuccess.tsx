@@ -15,11 +15,6 @@ const PaymentSuccess = () => {
     console.log(location.search)
     const handleLoginAndCart = useSelector((state: RootState) => state.auth)
     useEffect(() => {
-        if (handleLoginAndCart.token === "") {
-            navigate('/account/login')
-        }
-    }, [handleLoginAndCart.token])
-    useEffect(() => {
         const fetchVNPAYreturn = async () => {
             await axios.get(`/myway/api/bookings/vnpay_return${location.search}`)
         }
