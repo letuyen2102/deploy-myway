@@ -125,8 +125,8 @@ const Header: React.FC = (props) => {
                             <div className={`${styles.HeaderTopAccount_Account}`}>
 
                                 {
-                                    // handleLoginAndCart.token ? <Link to={'/profile/account/user'} className={`${styles.setDisplay}`}>Tài khoản</Link> :
-                                    <Link to={'/account/login'} className={`${styles.setDisplay}`}>Tài khoản</Link>
+                                    handleLoginAndCart.token ? <Link to={'/profile/account/user'} className={`${styles.setDisplay}`}>Tài khoản</Link> :
+                                        <Link to={'/account/login'} className={`${styles.setDisplay}`}>Tài khoản</Link>
                                 }
                             </div>
                             <div className={`${styles.HeaderTopAccount_Cart}`}>

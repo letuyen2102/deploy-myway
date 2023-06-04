@@ -7,12 +7,13 @@ import { GoogleOAuthProvider } from '@react-oauth/google';
 import { signInWithPopup, FacebookAuthProvider, getAuth } from 'firebase/auth'
 import FacebookLogin from '@greatsumini/react-facebook-login';
 import styles from './Login.module.css'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../slices/authSlice";
 import { UserInfor } from "../../slices/authSlice";
 import { handleNotify } from "../../slices/notifySlice";
 import Title from "../Tiltle/Title";
 import { initializeApp } from "firebase/app";
+import { RootState } from "../../store/store";
 interface Account {
     email: string,
     password: string
@@ -59,7 +60,7 @@ const BtnGoogle: React.FC = (props) => {
 
 
 const Login: React.FC = () => {
-
+    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
     const dispatch = useDispatch()
     const navigate: NavigateFunction = useNavigate()
     // const { token, setToken, user, setUser } = useContext(tokenStorage)
@@ -92,16 +93,6 @@ const Login: React.FC = () => {
             }, 2000)
         }
     }
-    // const signInWithFacebook = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    //     event.preventDefault()
-    //     signInWithPopup(auth, provider)
-    //         .then(result => {
-    //             console.log(result)
-    //         })
-    //         .catch(error => {
-    //             console.log(error)
-    //         })
-    // }
     const firebaseConfig = {
         apiKey: "AIzaSyBbLgHgOpXJeckQnpxRg0g4uxHCHJR9khs",
         authDomain: "auth-ff3d6.firebaseapp.com",
@@ -126,6 +117,12 @@ const Login: React.FC = () => {
                 console.error(error);
             });
     };
+
+    useEffect(() => {
+        if (handleLoginAndCart.token !== "") {
+            navigate('/profile/account/user')
+        }
+    }, [handleLoginAndCart.token])
     return (
         <div>
             <Title>

@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from './PaymentSuccess.module.css'
+import { RootState } from "../../store/store";
+import { useSelector } from "react-redux";
 const PaymentSuccess = () => {
     const navigate = useNavigate()
     const location = useLocation()
@@ -11,7 +13,12 @@ const PaymentSuccess = () => {
         console.log(searchParams.get("vnp_ResponseCode"))
     }
     console.log(location.search)
-
+    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+    useEffect(() => {
+        if (handleLoginAndCart.token === "") {
+            navigate('/account/login')
+        }
+    }, [handleLoginAndCart.token])
     useEffect(() => {
         const fetchVNPAYreturn = async () => {
             await axios.get(`/myway/api/bookings/vnpay_return${location.search}`)

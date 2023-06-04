@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from "react-router-dom"
+import { Link, Route, Routes, useNavigate } from "react-router-dom"
 import Footer from "../../components/Footer/Footer"
 import Header from "../../components/Header/Header"
 import Title from "../../components/Tiltle/Title"
@@ -9,7 +9,17 @@ import MyBooking from "../../components/SectionProfile/MyBooking"
 import DetailOrder from "../../components/SectionProfile/DetailOrder"
 import styles from './Profile.module.css'
 import ChangePhone from "../../components/ChangePhone/ChangePhone"
+import { useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { useEffect } from "react"
 const ProfileUser = () => {
+    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+    const navigate = useNavigate()
+    useEffect(() => {
+        if (handleLoginAndCart.token === "") {
+            navigate('/account/login')
+        }
+    }, [handleLoginAndCart.token])
     return (
         <div>
             <Header />
