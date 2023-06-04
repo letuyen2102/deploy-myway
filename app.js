@@ -11,7 +11,11 @@ const reviewRouter = require('./routes/reviewRoutes')
 const chatRouter = require('./routes/chatRoutes')
 const path = require('path')
 const app = express()
-app.use(cors());
+app.use(cors({
+  origin : [
+    "https://deploy-mern-stack.onrender.com"
+  ]
+}));
 app.use(express.static('public/image'));
 app.use(cookieParser())
 app.use(bodyParser.json())

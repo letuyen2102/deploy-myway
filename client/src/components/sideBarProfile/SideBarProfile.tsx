@@ -9,6 +9,8 @@ import Loader from '../loader/Loader';
 import { hideLoader, showLoader } from '../../slices/loaderSlice';
 const SideBarProfile = () => {
     const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+    console.log("hello")
+    console.log(handleLoginAndCart)
     const handleLoader = useSelector((state: RootState) => state.loader)
 
     const dispatch = useDispatch()

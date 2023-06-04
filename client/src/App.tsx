@@ -37,7 +37,7 @@ import Stat from './components/Stats/Stat';
 import Test from './pages/test/Test';
 import SignupAdminPage from './pages/SignupAdminPage/SignupAdminPage';
 import Reset from './pages/resetPassword/Reset';
-const socket = io('/')
+const socket = io('https://deploy-mern-stack.onrender.com')
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -80,7 +80,7 @@ function App() {
       {
         showChat ? <div style={{ width: '300px', height: '400px', position: 'fixed', bottom: '50px', right: '50px', zIndex: '100' }}>
           <Chat setShowChat={setShowChat} socket={socket} room={handleLoginAndCart.user._id.toString()} username={handleLoginAndCart.user} />
-        </div> : (handleLoginAndCart.user.role === 'user' && <button
+        </div> : (handleLoginAndCart.token && handleLoginAndCart.user.role === 'user' && <button
           style={{ position: 'fixed', bottom: '50px', right: '50px', zIndex: '100', padding: '10px', borderRadius: '10px', backgroundColor: '#00b156', color: '#fff' }}
 
           onClick={() => { joinRoom() }}
@@ -89,15 +89,15 @@ function App() {
 
       <Routes>
         <Route path='/' element={<Home />} />
-        <Route path='/account/login' element={<ProtectedUserRoute element={<div><Header /> <Login /> <Footer /> </div>} />} />
-        <Route path='/account/signup' element={<ProtectedUserRoute element={<div><Header /> <Signup /> <Footer /> </div>} />} />
+        <Route path='/account/login' element={<div><Header /> <Login /> <Footer /> </div>} />
+        <Route path='/account/signup' element={<div><Header /> <Signup /> <Footer /> </div>} />
         <Route path='/account/forgotpassword/*' element={<ForgotPasswordPage />} />
         <Route path='/detail/:slug' element={<div><Header /> <Detail /> <Footer /> </div>} />
-        <Route path='/profile/account/user/*' element={<ProtectedUserRoute element={<ProfileUser />} />} />
+        <Route path='/profile/account/user/*' element={<ProfileUser />} />
         <Route path='/collection/all' element={<PageShop queryApi={queryShopAll} queryString='category' />} />
         <Route path='/cart' element={<div><Header />  <Cart /> <Footer /> </div>} />
-        <Route path='/checkout' element={<ProtectedUserRoute element={<div><Header /> <Checkout /> <Footer /> </div>} />} />
-        <Route path='/success' element={<ProtectedUserRoute element={<PaymentSuccess />} />} />
+        <Route path='/checkout' element={<div><Header /> <Checkout /> <Footer /> </div>} />
+        <Route path='/success' element={<PaymentSuccess />} />
         <Route path="/admin/login" element={<ProtectedAdminRoute element={<LoginAdminPage />} />} />
         <Route path="/admin/signup" element={<SignupAdminPage />} />
         <Route path="/myway/admin" element={<ProtectedAdminRoute element={<div><Admin><Outlet /></Admin></div>} />}>
