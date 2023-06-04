@@ -158,6 +158,9 @@ const SidebarContent = ({ ...props }: BoxProps) => (
             <NavItem icon={BsFillChatRightDotsFill}>
                 <Link to='/myway/admin/chats'>Chat</Link>
             </NavItem>
+            <NavItem icon={AiOutlineHome}>
+                <Link to='/myway/admin'>Dashboard</Link>
+            </NavItem>
         </Flex>
     </Box>
 );

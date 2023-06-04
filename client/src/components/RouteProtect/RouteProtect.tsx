@@ -2,34 +2,35 @@ import { useSelector } from "react-redux";
 import React, { useEffect } from 'react'
 import { Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { RootState } from "../../store/store";
+import Admin from "../../pages/admin/admin";
+import ProfileUser from "../../pages/profile/ProfileUser";
 
-export const ProtectedAdminRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
-    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
-    const navigate = useNavigate();
-    const isAdmin = handleLoginAndCart.token && handleLoginAndCart.user.role === 'admin';
-
-    useEffect(() => {
-        if ((!isAdmin) && window.location.pathname === '/admin/login') {
-            navigate('/admin/login');
-        } else if (isAdmin) {
-            navigate('/myway/admin');
+export const ProtectedAdminRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    function IsAuthenticated() {
+        const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+        if (handleLoginAndCart.token && handleLoginAndCart.user.role === "admin") {
+            return true
         }
-    }, [isAdmin, navigate]);
-
-    return <>{element}</>;
+        return false;
+    }
+    if (IsAuthenticated()) {
+        return <div><Admin>{children}</Admin></div>;
+    } else {
+        return <Navigate to="/admin/login" />;
+    }
 };
-export const ProtectedUserRoute: React.FC<{ element: React.ReactNode }> = ({ element }) => {
-    const handleLoginAndCart = useSelector((state: RootState) => state.auth)
-    const navigate = useNavigate();
-    const isLogged = handleLoginAndCart.token
-
-    useEffect(() => {
-        if ((!isLogged) && window.location.pathname === '/account/login') {
-            navigate('/account/login');
-        } else if (isLogged) {
-            navigate('/profile/account/user');
+export function ProtectedUserRoute({ children }: { children: React.ReactNode }) {
+    function IsAuthenticated() {
+        const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+        if (handleLoginAndCart.token) {
+            return true
         }
-    }, [isLogged, navigate]);
+        return false;
+    }
 
-    return <>{element}</>;
+    if (IsAuthenticated()) {
+        return <div><ProfileUser>{children}</ProfileUser></div>;
+    } else {
+        return <Navigate to="/account/login" />;
+    }
 }
