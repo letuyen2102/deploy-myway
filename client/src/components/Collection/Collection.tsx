@@ -259,7 +259,7 @@ const Collection: React.FC<{ queryAPI: string, queryString: string }> = (props) 
                                 </div>
                             </div>
                             <div className='row'>
-                                <PaginatedItems itemsPerPage={8} apiString={props.queryAPI + searchParams.toString()} />
+                                <PaginatedItems itemsPerPage={16} apiString={props.queryAPI + searchParams.toString()} />
                                 {/* {props.queryAPI.endsWith('&') && <PaginatedItems itemsPerPage={8} apiString={props.queryAPI + searchParams.toString()} />} */}
 
                             </div>

@@ -46,6 +46,7 @@ exports.replyComment = async (req , res) => {
 exports.getAllReviews = async (req , res) => {
     try {
         const reviews = await Review.find().populate('user').populate('product').populate('response.user')
+        
         res.status(200).json({
             status : 'success',
             reviews
@@ -69,6 +70,27 @@ exports.deleteResponse = async (req, res) => {
         await review.save()
         res.status(204).json({
             status : 'success'
+        })
+    }
+    catch(err){
+        res.status(400).json({
+            status: 'error',
+            message: err.message
+        })
+    }
+}
+
+exports.getReviewEachProduct = async (req , res) => {
+    try{
+        const slug = req.params.slug
+        console.log(req.params)
+        const reviews = await Review.find().populate('user').populate('product').populate('response.user')
+        const data = reviews.filter((el) => {
+            return el.product.slug === slug
+        })
+        res.status(200).json({
+            status : 'success',
+            reviews : data
         })
     }
     catch(err){

@@ -6,6 +6,10 @@ import classes from './Signup.module.css'
 import styles from './../login/Login.module.css'
 import Title from "../Tiltle/Title"
 import axios from "axios"
+import { useDispatch, useSelector } from "react-redux"
+import { RootState } from "../../store/store"
+import { hideLoader, showLoader } from "../../slices/loaderSlice"
+import { Loader } from "@chatscope/chat-ui-kit-react"
 
 interface Account {
     name: string,
@@ -17,6 +21,8 @@ interface Account {
 }
 
 const Signup: React.FC = (props) => {
+    const handleLoader = useSelector((state: RootState) => state.loader)
+    const dispatch = useDispatch()
     const navigate: NavigateFunction = useNavigate()
     const [messageError, setMessError] = useState<string | null>()
     const [accountSignup, setAccountSignup] = useState<Account>({
@@ -29,23 +35,28 @@ const Signup: React.FC = (props) => {
     })
     const handleSignup = async (objSignup: Account) => {
         try {
+            dispatch(hideLoader())
             const res = await axios({
                 method: 'POST',
                 url: '/myway/api/users/signup',
                 data: objSignup
             })
+            dispatch(showLoader())
 
             if (res.data.status === 'success') {
                 navigate('/account/login')
             }
         }
         catch (err: any) {
+            dispatch(showLoader())
             setMessError(err.response.data.message)
         }
     }
 
     return (
         <div>
+            {handleLoader.loader && <Loader />}
+
             <Title>
                 <ul>
                     <li>

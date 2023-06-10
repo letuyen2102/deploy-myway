@@ -95,7 +95,7 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/account/login' element={<div><Header /> <Login /> <Footer /> </div>} />
         <Route path='/account/signup' element={<div><Header /> <Signup /> <Footer /> </div>} />
-        <Route path="/profile/account/user" element={<ProtectedUserRoute><Outlet /></ProtectedUserRoute>}>
+        <Route path="/profile/account/user" element={<ProtectedUserRoute><ProfileUser><Outlet /></ProfileUser></ProtectedUserRoute>}>
           <Route index element={<SectionProfile />} />
           <Route path="change-phone" element={<ChangePhone />} />
           <Route path="change-password" element={<ChangePassword />} />
@@ -106,7 +106,7 @@ function App() {
         <Route path='/detail/:slug' element={<div><Header /> <Detail /> <Footer /> </div>} />
         <Route path='/collection/all' element={<PageShop queryApi={queryShopAll} queryString='category' />} />
         <Route path='/cart' element={<div><Header />  <Cart /> <Footer /> </div>} />
-        <Route path='/checkout' element={<ProtectedUserRoute><Checkout /></ProtectedUserRoute>} />
+        <Route path='/checkout' element={<ProtectedUserRoute><Header /> <Checkout /> <Footer /></ProtectedUserRoute>} />
         <Route path='/success' element={<ProtectedUserRoute><PaymentSuccess /></ProtectedUserRoute>} />
         <Route path="/admin/login" element={<LoginAdminPage />} />
         <Route path="/admin/signup" element={<SignupAdminPage />} />

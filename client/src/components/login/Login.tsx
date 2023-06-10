@@ -13,6 +13,8 @@ import { handleNotify } from "../../slices/notifySlice";
 import Title from "../Tiltle/Title";
 import { initializeApp } from "firebase/app";
 import { RootState } from "../../store/store";
+import { hideLoader, showLoader } from "../../slices/loaderSlice";
+import Loader from "../loader/Loader";
 interface Account {
     email: string,
     password: string
@@ -60,6 +62,8 @@ const BtnGoogle: React.FC = (props) => {
 
 const Login: React.FC = () => {
     const handleLoginAndCart = useSelector((state: RootState) => state.auth)
+    const handleLoader = useSelector((state: RootState) => state.loader)
+
     const dispatch = useDispatch()
     const navigate: NavigateFunction = useNavigate()
     // const { token, setToken, user, setUser } = useContext(tokenStorage)
@@ -69,11 +73,13 @@ const Login: React.FC = () => {
     })
     const handleLoginNormal = async (objAccount: Account) => {
         try {
+            dispatch(hideLoader())
             const res = await axios({
                 method: 'POST',
                 url: '/myway/api/users/login',
                 data: objAccount
             })
+            dispatch(showLoader())
             console.log(res)
             if (res.data.status === 'success') {
                 console.log(res.data.data.timeExpire)
@@ -86,6 +92,7 @@ const Login: React.FC = () => {
             }
         }
         catch (err: any) {
+            dispatch(showLoader())
             dispatch(handleNotify({ message: "Thông tin đăng nhập không chính xác , vui lòng thử lại sau", show: true, status: 400 }))
             setTimeout(() => {
                 dispatch(handleNotify({ message: "", show: false, status: 0 }))
@@ -118,6 +125,7 @@ const Login: React.FC = () => {
     };
     return (
         <div>
+            {handleLoader.loader && <Loader />}
             <Title>
                 <ul>
                     <li>

@@ -81,8 +81,9 @@ const Detail: React.FC = (props) => {
         slidesToScroll: 5
     };
     const [changeImg, setChangeImg] = useState<string | null>()
-    const [prod, setProd] = useState<PRODUCT>({ _id: "", name: "", description: "", oldPrice: 0, sale: 0, quantity: [], image: "", category: "", categoryName: "", subQuantity: 0, newPrice: 0, slug: "" })
     const [comments, setComments] = useState<COMMENT[]>([])
+    const [prod, setProd] = useState<PRODUCT>({ _id: "", name: "", description: "", oldPrice: 0, sale: 0, quantity: [], image: "", category: "", categoryName: "", subQuantity: 0, newPrice: 0, slug: "" })
+    console.log(prod._id)
     const [userComment, setUserComment] = useState<{ productId: string, content: string }>({
         productId: '',
         content: ''
@@ -143,6 +144,7 @@ const Detail: React.FC = (props) => {
 
                     return newState
                 })
+                setUserComment({ ...userComment, content: '' })
             }
         }
         catch (err) {
@@ -183,6 +185,7 @@ const Detail: React.FC = (props) => {
                     }
 
                 })
+                setResComment('')
             }
         }
         catch (err) {
@@ -193,7 +196,6 @@ const Detail: React.FC = (props) => {
     const deleteResponse = async (idCmt: string, idRes: string) => {
         try {
             const res = await axios.delete(`/myway/api/reviews/${idCmt}/${idRes}`)
-            console.log(res)
             setComments(prev => {
                 const newState = [...prev]
                 newState.forEach(el => {
@@ -218,15 +220,19 @@ const Detail: React.FC = (props) => {
                 .then(data => setProd(data.product))
             dispatch(showLoader())
         }
+        getProductDetail()
+    }, [])
+    useEffect(() => {
         const getAllComments = async () => {
-            await fetch(`/myway/api/reviews`)
+            console.log(prod._id)
+            await fetch(`/myway/api/reviews/product/${slug}/comments`)
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     setComments(data.reviews)
                     setCount(Array(data.reviews.length).fill(false))
                 })
         }
-        getProductDetail()
         getAllComments()
     }, [])
     useEffect(() => {
@@ -455,22 +461,25 @@ const Detail: React.FC = (props) => {
                                         </div>
                                         <div className="row">
                                             {handleLoginAndCart.token ? <div className="col-lg-6 col-md-12 col-sm-12 col-12">
-                                                <div className={`${styles.inputComment}`}>
-                                                    <Image
-                                                        borderRadius='full'
-                                                        boxSize='40px'
-                                                        src='https://res.cloudinary.com/dalz888e7/image/upload/v1684910195/my_image_user/default-user.jpg.jpg'
-                                                        alt='Dan Abramov'
-                                                        marginRight='5px'
-                                                    />
-                                                    <input value={userComment.content} onChange={event => setUserComment({ ...userComment, content: event.target.value })} />
-                                                </div>
-                                                <button
-                                                    style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
-                                                    onClick={event => {
-                                                        createComment(prod._id, userComment.content)
-                                                    }}
-                                                >Bình luận</button>
+                                                <form onSubmit={event => {
+                                                    event.preventDefault()
+                                                    createComment(prod._id, userComment.content)
+                                                }}>
+                                                    <div className={`${styles.inputComment}`}>
+                                                        <Image
+                                                            borderRadius='full'
+                                                            boxSize='40px'
+                                                            src='https://res.cloudinary.com/dalz888e7/image/upload/v1684910195/my_image_user/default-user.jpg.jpg'
+                                                            alt='Dan Abramov'
+                                                            marginRight='5px'
+                                                        />
+                                                        <input value={userComment.content} onChange={event => setUserComment({ ...userComment, content: event.target.value })} />
+                                                    </div>
+                                                    <button
+                                                        style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
+
+                                                    >Bình luận</button>
+                                                </form>
                                             </div> : <div style={{ textAlign: 'center', height: '60px', lineHeight: '60px' }}>
                                                 Hãy <Link to='/account/login' style={{ color: '#ec1f27' }}>đăng nhập </Link>để bình luận
                                             </div>}
@@ -514,7 +523,7 @@ const Detail: React.FC = (props) => {
                                                                         return newState
                                                                     })
                                                                 }}>Trả lời</button>
-                                                                {count[idx] && <div style={{ marginBottom: '25px' }}>
+                                                                {count[idx] && <form style={{ marginBottom: '25px' }}>
                                                                     <div className={`${styles.inputComment}`}>
                                                                         <Image
                                                                             borderRadius='full'
@@ -537,11 +546,9 @@ const Detail: React.FC = (props) => {
                                                                     >Hủy</button>
                                                                     <button
                                                                         style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
-                                                                        onClick={event => {
-                                                                            replyComment(comment._id, resComment)
-                                                                        }}
+                                                                        onClick={event => replyComment(comment._id, resComment)}
                                                                     >Bình luận</button>
-                                                                </div>}
+                                                                </form>}
                                                             </div>
                                                             {
                                                                 comment.response && comment.response.length > 0

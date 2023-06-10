@@ -1,9 +1,13 @@
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import styles from './ChangePassword.module.css'
 import { useNavigate } from 'react-router-dom'
-import { logout } from '../../slices/authSlice'
+import { login, logout } from '../../slices/authSlice'
 import axios from 'axios'
 import { useState } from 'react'
+import { handleNotify } from '../../slices/notifySlice'
+import { RootState } from '../../store/store'
+import Loader from '../loader/Loader'
+import { hideLoader, showLoader } from '../../slices/loaderSlice'
 interface CHANGE_PASSWORD {
     passwordCurrent: string,
     password: string,
@@ -12,6 +16,8 @@ interface CHANGE_PASSWORD {
 const ChangePassword = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const handleLoader = useSelector((state: RootState) => state.loader)
+
     const [objUpdatePassword, setUpdatePassword] = useState<CHANGE_PASSWORD>({
         passwordCurrent: "",
         password: "",
@@ -19,10 +25,18 @@ const ChangePassword = () => {
     })
     const handleChangePassword = async (objUpdatePassword: CHANGE_PASSWORD) => {
         try {
+            dispatch(hideLoader())
             const res = await axios.patch('/myway/api/users/updateMyPassword', objUpdatePassword)
-            if (res.data.status === "success") {
-                dispatch(logout())
-                navigate('/account/login')
+            dispatch(showLoader())
+
+            if (res.data.status === 'success') {
+                console.log(res.data.data.timeExpire)
+                dispatch(login({ tokenDispatch: res.data.token, userDispatch: res.data.data.user, timeExpire: res.data.timeExpire }))
+                dispatch(handleNotify({ message: "Thay đổi mật khẩu thành công", show: true, status: 200 }))
+                setTimeout(() => {
+                    dispatch(handleNotify({ message: "", show: false, status: 0 }))
+                    navigate('/profile/account/user')
+                }, 1500)
             }
         }
         catch (err) {
@@ -31,6 +45,7 @@ const ChangePassword = () => {
     }
     return (
         <div className='col-lg-10 offset-lg-1'>
+            {handleLoader.loader && <Loader />}
             <div className={styles.sectionTitle}>
                 <p>Thay đổi mật khẩu</p>
             </div>

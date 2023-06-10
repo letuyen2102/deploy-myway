@@ -1,6 +1,6 @@
 /*eslint-disable*/
 import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, NavigateFunction, useNavigate } from 'react-router-dom'
 import { clearEach, decCartNoToken, getItemsCart, inCartNoTken, setEmptyCart } from '../../slices/authSlice'
@@ -40,7 +40,7 @@ interface MANYITEM {
 const Cart: React.FC = (props) => {
     const handleLoginAndCart = useSelector((state: RootState) => state.auth)
     const handleLoader = useSelector((state: RootState) => state.loader)
-
+    const currentRan = useRef(false)
     const dispatch = useDispatch()
     const navigate: NavigateFunction = useNavigate()
     const [itemsCart, setItemsCart] = useState<ITEMCART[]>([])
@@ -235,6 +235,14 @@ const Cart: React.FC = (props) => {
         }
         if (handleLoginAndCart.token) {
             getCartApi()
+        }
+        if (currentRan.current === false && handleLoginAndCart.token && handleLoginAndCart.cart && handleLoginAndCart.cart.items.length > 0) {
+            addManyCartApi({ items: handleLoginAndCart.cart.items })
+
+            dispatch(setEmptyCart())
+        }
+        return () => {
+            currentRan.current = true
         }
     }, [handleLoginAndCart.cart, handleLoginAndCart.token])
     return (

@@ -323,7 +323,7 @@ exports.forgotPassword = async (req, res, next) => {
                         ],
                         Subject: "Quên mật khẩu ",
                         TextPart: `Xin chào ${user.name},\n\nBạn đã yêu cầu thay đổi mật khẩu trên MYWAYMYFASHION. Vui lòng truy cập trang đổi mật khẩu và thực hiện theo hướng dẫn để hoàn tất quá trình.\n\nTrân trọng,\nMYWAYMYFASHION`,
-                        HTMLPart: `<h3>Xin chào ${user.name},</h3><p>Bạn đã yêu cầu thay đổi mật khẩu trên MYWAYMYFASHION. Vui lòng truy cập trang đổi mật khẩu và thực hiện theo hướng dẫn để hoàn tất quá trình.<br /> <a href="http://localhost:3000/account/user/resetPassword/${resetToken}">Tại đây !</a> </p><p>Trân trọng,</p><p>MYWAYMYFASHION</p>`
+                        HTMLPart: `<h3>Xin chào ${user.name},</h3><p>Bạn đã yêu cầu thay đổi mật khẩu trên MYWAYMYFASHION. Vui lòng truy cập trang đổi mật khẩu và thực hiện theo hướng dẫn để hoàn tất quá trình.<br /> <a href="https://deploy-mern-stack.onrender.com/account/user/resetPassword/${resetToken}">Tại đây !</a> </p><p>Trân trọng,</p><p>MYWAYMYFASHION</p>`
                     }
                 ]
             })
@@ -386,13 +386,7 @@ exports.updatePassword = async (req, res, next) => {
         user.password = req.body.password;
         user.passwordConfirm = req.body.passwordConfirm;
         await user.save();
-        res.cookie('jwt', 'tuyendeptrai', {
-            expires: new Date(Date.now()),
-            httpOnly: true
-        })
-        res.status(200).json({
-            status: 'success'
-        })
+        createSendToken(user,200,res)
     }
     catch (err) {
         res.status(400).json({
@@ -416,7 +410,7 @@ exports.sendOtp = async (req, res, next) => {
         user.otpExpires = otpExpires
         await user.save({ validateBeforeSave: false });
         const accountSid = 'AC0c8e9ccb0de3f134033fd46c862a91a1';
-        const authToken = 'e06178139543b8b4b0904adbcb1386af';
+        const authToken = '8dfddef7dcb61fa0a978f85f296080b2';
         const client = twilio(accountSid, authToken);
         await client.messages.create({
             to: `+84${parseInt(phone)}`,

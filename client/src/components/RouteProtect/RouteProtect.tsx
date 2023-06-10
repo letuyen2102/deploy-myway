@@ -29,7 +29,7 @@ export function ProtectedUserRoute({ children }: { children: React.ReactNode }) 
     }
 
     if (IsAuthenticated()) {
-        return <div><ProfileUser>{children}</ProfileUser></div>;
+        return <div>{children}</div>;
     } else {
         return <Navigate to="/account/login" />;
     }

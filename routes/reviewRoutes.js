@@ -8,8 +8,13 @@ router
     .post('/comments/:idComment' , authController.protect , reviewController.replyComment)
 
 router
+    .get('/product/:slug/comments' , reviewController.getReviewEachProduct)
+
+router
     .get('/' , reviewController.getAllReviews)
     .post('/' , authController.protect , reviewController.createReview)
+
+
 router
     .delete('/:idComment/:idResponse' , authController.protect , reviewController.deleteResponse)
 router

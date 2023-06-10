@@ -15,7 +15,6 @@ const Header: React.FC = (props) => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const handleLoginAndCart = useSelector((state: RootState) => state.auth)
-    console.log(handleLoginAndCart)
     const [showMenuMobile, setShowMenuMobile] = useState<boolean>(false)
     const [prodSearch, setProdSearch] = useState<PRODUCT[]>()
     const [spinerLoad, setSpiner] = useState(false)

@@ -1,5 +1,5 @@
 /*eslint-disable*/
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import BannerShow from "./components/BannerShow/BannerShow"
 import Footer from "./components/Footer/Footer"
 import Header from "./components/Header/Header"
@@ -7,6 +7,7 @@ import styles from './Home.module.css'
 import ProductCard from "./components/ProductCard/ProductCard"
 import SimpleSlider from "./components/SimpleSlider/SimpleSlider"
 const Home = () => {
+    const navigate = useNavigate()
     return (
         <div>
             <Header />
@@ -18,7 +19,7 @@ const Home = () => {
                 </div>
 
                 <div className={`${styles.showAll}`}>
-                    <button>XEM TẤT CẢ THỜI TRANG MY WAY</button>
+                    <button onClick={() => navigate('/colection/all')}>XEM TẤT CẢ THỜI TRANG MY WAY</button>
                 </div>
                 <div className={`${styles.productContent}`}>
                     <div className={`row`}>
@@ -40,7 +41,7 @@ const Home = () => {
                                 </div>
                                 <div className={`${styles.productContentEachButton}`}>
                                     <h2>Vest</h2>
-                                    <Link to='/ao'>XEM TẤT CẢ</Link>
+                                    <Link to='/collection/all?category=ao'>XEM TẤT CẢ</Link>
                                 </div>
                             </div>
                         </div>
@@ -51,7 +52,7 @@ const Home = () => {
                                 </div>
                                 <div className={`${styles.productContentEachButton}`}>
                                     <h2>Đầm</h2>
-                                    <Link to='/dam'>XEM TẤT CẢ</Link>
+                                    <Link to='/collection/all?category=dam'>XEM TẤT CẢ</Link>
                                 </div>
                             </div>
                         </div>
