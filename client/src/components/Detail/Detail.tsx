@@ -546,7 +546,7 @@ const Detail: React.FC = (props) => {
                                                                     >Hủy</button>
                                                                     <button
                                                                         style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
-                                                                        onClick={event => replyComment(comment._id, resComment)}
+                                                                        onClick={event => {event.preventDefault() ; replyComment(comment._id, resComment)}}
                                                                     >Bình luận</button>
                                                                 </form>}
                                                             </div>
