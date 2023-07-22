@@ -545,6 +545,7 @@ const Detail: React.FC = (props) => {
                                                                         }}
                                                                     >Hủy</button>
                                                                     <button
+                                                                        type={'submit'}
                                                                         style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
                                                                         onClick={event => {event.preventDefault() ; replyComment(comment._id, resComment)}}
                                                                     >Bình luận</button>
