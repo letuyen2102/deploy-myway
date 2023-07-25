@@ -109,7 +109,6 @@ function App() {
         <Route path='/checkout' element={<ProtectedUserRoute><Header /> <Checkout /> <Footer /></ProtectedUserRoute>} />
         <Route path='/success' element={<ProtectedUserRoute><PaymentSuccess /></ProtectedUserRoute>} />
         <Route path="/admin/login" element={<LoginAdminPage />} />
-        <Route path="/admin/signup" element={<SignupAdminPage />} />
         <Route path="/myway/admin" element={<ProtectedAdminRoute><Outlet /></ProtectedAdminRoute>}>
           <Route index element={<Dashboard />} />
           <Route path="product" element={<Product />} />
