@@ -76,7 +76,7 @@ const DetailOrder = () => {
                 <div className={styles.eachInfor}>
                     <span>Hình thức thanh toán:</span>
                     {
-                        orderDetail?.paymentCardName ? <span>Thanh toán online qua {orderDetail.paymentCardName}</span>
+                        orderDetail?.paymentCardName ? <span>Thanh toán online qua {orderDetail?.paymentCardName}</span>
                             : <span>Thanh toán khi nhận hàng (COD)</span>
                     }
                 </div>
@@ -110,21 +110,21 @@ const DetailOrder = () => {
                                 return <tr key={idx}>
                                     <td>
                                         <div>
-                                            <span>{each.product.name}</span>
+                                            <span>{each?.product?.name}</span>
                                             <div>
-                                                <p>Màu : {each.colorName}</p>
-                                                <p>Kích cỡ : {each.size}</p>
+                                                <p>Màu : {each?.colorName}</p>
+                                                <p>Kích cỡ : {each?.size}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
-                                        <p>{each.product.newPrice.toLocaleString('Vi-VN')}đ</p>
+                                        <p>{each?.product?.newPrice.toLocaleString('Vi-VN')}đ</p>
                                     </td>
                                     <td>
-                                        <p>{each.quantity}</p>
+                                        <p>{each?.quantity}</p>
                                     </td>
                                     <td>
-                                        <p>{each.total.toLocaleString('Vi-VN')}đ</p>
+                                        <p>{each?.total.toLocaleString('Vi-VN')}đ</p>
                                     </td>
                                 </tr>
                             })
