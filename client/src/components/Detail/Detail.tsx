@@ -303,7 +303,7 @@ const Detail: React.FC = (props) => {
                                                     <div className={styles.colorOderImage}>
                                                         <img src={`${prod.quantity[idx].imageSlideShows[0]}`} />
                                                     </div>
-                                                    <p>{el.colorName}</p>
+                                                    <p>{el?.colorName}</p>
                                                 </div>
                                             )
                                         })
@@ -453,7 +453,7 @@ const Detail: React.FC = (props) => {
                                 <div className={`${styles.content3}`}>
                                     <div className={`${styles.ownerComment}`}>
                                         <div className={`${styles.quantityComment}`}>
-                                            <p style={{ display: 'inline-block', marginRight: '50px' }}>{comments.length} bình luận</p>
+                                            <p style={{ display: 'inline-block', marginRight: '50px' }}>{comments?.length} bình luận</p>
                                             <p style={{ display: 'inline-block', cursor: 'pointer' }}>
                                                 <i className="fa-light fa-bars-sort" style={{ fontWeight: '600', marginRight: '10px' }}></i>
                                                 Sắp xếp theo
@@ -496,8 +496,8 @@ const Detail: React.FC = (props) => {
                                                                 <Image
                                                                     borderRadius='full'
                                                                     boxSize='40px'
-                                                                    src={comment.user.photo}
-                                                                    alt={comment.user.name}
+                                                                    src={comment?.user?.photo}
+                                                                    alt={comment?.user?.name}
                                                                     marginRight='20px'
                                                                 />
                                                                 <div>
@@ -505,7 +505,7 @@ const Detail: React.FC = (props) => {
                                                                     <p>{moment(comment.createAt).format('DD/MM/YYYY')}</p>
                                                                 </div>
                                                                 {
-                                                                    comment.user._id === handleLoginAndCart.user._id && <div className={styles.editComment}>
+                                                                    comment?.user._id === handleLoginAndCart?.user?._id && <div className={styles.editComment}>
                                                                         <button onClick={() => deleteComment(comment._id)}>Xóa</button>
                                                                         {/* <button>Chỉnh sửa</button> */}
                                                                     </div>
@@ -547,7 +547,7 @@ const Detail: React.FC = (props) => {
                                                                     <button
                                                                         type={'submit'}
                                                                         style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
-                                                                        onClick={event => {event.preventDefault() ; replyComment(comment._id, resComment)}}
+                                                                        onClick={event => { event.preventDefault(); replyComment(comment._id, resComment) }}
                                                                     >Bình luận</button>
                                                                 </form>}
                                                             </div>
@@ -559,13 +559,13 @@ const Detail: React.FC = (props) => {
                                                                             <Image
                                                                                 borderRadius='full'
                                                                                 boxSize='40px'
-                                                                                src={res.user.photo}
-                                                                                alt={res.user.name}
+                                                                                src={res?.user?.photo}
+                                                                                alt={res?.user?.name}
                                                                                 marginRight='20px'
                                                                             />
                                                                             <div>
-                                                                                <strong>{res.user.name}</strong>
-                                                                                <p>{moment(res.createAt).format('DD/MM/YYYY')}</p>
+                                                                                <strong>{res?.user?.name}</strong>
+                                                                                <p>{moment(res?.createAt).format('DD/MM/YYYY')}</p>
                                                                             </div>
                                                                             {
                                                                                 res.user._id === handleLoginAndCart.user._id && <div className={styles.editComment}>
