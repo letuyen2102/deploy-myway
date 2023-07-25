@@ -137,13 +137,8 @@ const Detail: React.FC = (props) => {
         try {
             const res = await axios.post('/myway/api/reviews/', { product: productId, text })
             if (res.data.status === 'success') {
-                setComments(prev => {
-                    const newState = [...prev]
-
-                    newState.push(res.data.review)
-
-                    return newState
-                })
+                const newState = [...comments, res.data.review]
+                setComments(newState)
                 setUserComment({ ...userComment, content: '' })
             }
         }
@@ -218,24 +213,18 @@ const Detail: React.FC = (props) => {
             await fetch(`/myway/api/products/${slug}`)
                 .then(res => res.json())
                 .then(data => setProd(data.product))
-            dispatch(showLoader())
         }
         getProductDetail()
-    }, [])
-    useEffect(() => {
         const getAllComments = async () => {
-            console.log(prod._id)
             await fetch(`/myway/api/reviews/product/${slug}/comments`)
                 .then(res => res.json())
                 .then(data => {
-                    console.log(data)
+                    console.log(data.reviews)
                     setComments(data.reviews)
-                    setCount(Array(data.reviews.length).fill(false))
+                    setCount(Array(data.reviews?.length).fill(false))
                 })
         }
         getAllComments()
-    }, [])
-    useEffect(() => {
         dispatch(defaultTab())
     }, [slug])
     return (
@@ -523,7 +512,7 @@ const Detail: React.FC = (props) => {
                                                                         return newState
                                                                     })
                                                                 }}>Trả lời</button>
-                                                                {count[idx] && <form style={{ marginBottom: '25px' }}>
+                                                                {count[idx] && <div style={{ marginBottom: '25px' }}>
                                                                     <div className={`${styles.inputComment}`}>
                                                                         <Image
                                                                             borderRadius='full'
@@ -545,16 +534,15 @@ const Detail: React.FC = (props) => {
                                                                         }}
                                                                     >Hủy</button>
                                                                     <button
-                                                                        type={'submit'}
                                                                         style={{ marginTop: '15px', float: 'right', padding: '5px 10px', borderRadius: '30px', border: 'none' }}
                                                                         onClick={event => { event.preventDefault(); replyComment(comment._id, resComment) }}
                                                                     >Bình luận</button>
-                                                                </form>}
+                                                                </div>}
                                                             </div>
                                                             {
                                                                 comment.response && comment.response.length > 0
                                                                 && comment.response.map((res, index) => {
-                                                                    return <div className={styles.eachComment} style={{ marginLeft: '60px', marginTop: '10px' }}>
+                                                                    return <div key={index} className={styles.eachComment} style={{ marginLeft: '60px', marginTop: '10px' }}>
                                                                         <div className={`${styles.userCommentContent}`}>
                                                                             <Image
                                                                                 borderRadius='full'
